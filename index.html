@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Secret Chat 2026</title>
+    <style>
+        body { background-color: #0a0a0a; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; padding: 10px; transition: 0.5s; line-height: 1.6; }
+        .container { border: 2px solid #333; background: #161616; padding: 20px; border-radius: 15px; max-width: 480px; margin: auto; box-shadow: 0 0 30px rgba(0, 255, 0, 0.05); }
+        
+        /* نظام التبويبات */
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { flex: 1; padding: 10px; background: #222; border: 1px solid #444; color: #888; cursor: pointer; border-radius: 8px; font-size: 13px; transition: 0.3s; }
+        .tab-btn.active { background: #00ff00; color: #000; font-weight: bold; box-shadow: 0 0 15px #00ff00; border-color: #00ff00; }
+        
+        textarea { width: 92%; height: 80px; margin: 10px 0; background: #000; color: #00ff00; border: 1px solid #333; padding: 12px; font-size: 16px; border-radius: 8px; resize: none; outline: none; }
+        textarea:focus { border-color: #00ff00; box-shadow: 0 0 5px #00ff00; }
+        
+        .btn-group { display: flex; gap: 8px; }
+        button { flex: 1; background: #1a1a1a; color: #00ff00; border: 1px solid #00ff00; padding: 12px; font-size: 16px; cursor: pointer; border-radius: 8px; margin: 5px 0; transition: 0.3s; }
+        button:hover { background: #00ff00; color: #000; box-shadow: 0 0 10px #00ff00; }
+        
+        .copy-btn { background: #333; color: #fff; border: none; width: 100%; margin-top: 10px; }
+        
+        h1 { font-size: 22px; color: #fff; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .mode-info { font-size: 13px; color: #00ff00; margin-bottom: 15px; opacity: 0.8; }
+
+        /* الأقسام الجديدة للربح وأدسنس */
+        .info-section { max-width: 600px; margin: 40px auto; text-align: right; background: #111; padding: 20px; border-radius: 10px; border-right: 4px solid #00ff00; }
+        .info-section h2 { color: #00ff00; font-size: 18px; border-bottom: 1px dashed #333; padding-bottom: 10px; }
+        .info-section p, .info-section li { color: #ccc; font-size: 14px; }
+        .footer { margin-top: 50px; font-size: 12px; color: #555; padding-bottom: 20px; }
+    </style>
+</head>
+<body id="mainBody">
+
+<div class="container" id="mainContainer">
+    <h1>Secret Chat Systems</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchMode('symbols', this)">👾 الرموز</button>
+        <button class="tab-btn" onclick="switchMode('emoji', this)">😎 إيموجي</button>
+        <button class="tab-btn" onclick="switchMode('matrix', this)">🧪 الهكر</button>
+    </div>
+
+    <div id="ui-body">
+        <p class="mode-info" id="modeTitle">نظام التشفير الحالي: الرموز الغريبة</p>
+        
+        <textarea id="inputText" placeholder="أدخل النص السري هنا..."></textarea>
+        
+        <div class="btn-group">
+            <button onclick="process(1)">🔒 تشفير</button>
+            <button onclick="process(2)">🔓 فك</button>
+        </div>
+        
+        <textarea id="outputText" readonly placeholder="النتيجة ستظهر هنا..."></textarea>
+        
+        <button class="copy-btn" onclick="copyText()">📋 نسخ الكود السري</button>
+    </div>
+</div>
+
+<div class="info-section">
+    <h2>ما هو نظام Ultimate Secret Chat؟</h2>
+    <p>مرحباً بك في نظام تشفير البيانات المتقدم لعام 2026. هذا الموقع مصمم لتوفير طبقة إضافية من الخصوصية لمراسلاتك اليومية. نحن نستخدم خوارزميات استبدال الرموز (Symbol Substitution) ونظام الباينري المعقد (Matrix Binary) لضمان أن رسائلك لا يقرأها إلا من يملك "مفتاح الحل".</p>
+</div>
+
+<div class="info-section">
+    <h2>كيف يعمل التشفير هنا؟</h2>
+    <ul>
+        <li><strong>نظام الرموز:</strong> يقوم بتحويل الحروف العربية والإنجليزية إلى رموز هندسية نادرة يصعب تخمينها.</li>
+        <li><strong>نظام الإيموجي:</strong> يحول كلامك الجاد إلى سلسلة من الرموز التعبيرية الممتعة التي تبدو وكأنها مجرد "رسالة عشوائية".</li>
+        <li><strong>نظام الهكر (Matrix):</strong> يعتمد على تحويل النص إلى كود ثنائي (Binary) مكون من 16 بت، مما يعطي شكلاً برمجياً معقداً للرسالة.</li>
+    </ul>
+</div>
+
+<div class="info-section">
+    <h2>سياسة الخصوصية والأمان</h2>
+    <p>أمانك هو أولويتنا القصوى، ولذلك نتبع السياسات التالية:</p>
+    <ul>
+        <li><strong>التشفير المحلي:</strong> جميع عمليات التشفير وفك التشفير تتم داخل متصفحك فقط (Client-side). لا نقوم بإرسال أي نص تكتبه إلى خوادمنا.</li>
+        <li><strong>لا تخزين للبيانات:</strong> بمجرد إغلاق الصفحة، تختفي جميع النصوص المكتوبة نهائياً ولا يتم حفظها في أي قاعدة بيانات.</li>
+        <li><strong>الكوكيز:</strong> قد نستخدم ملفات تعريف ارتباط بسيطة لتحسين تجربة المستخدم وعرض الإعلانات المناسبة لك عبر شركائنا.</li>
+    </ul>
+</div>
+
+<div class="footer">
+    <p>تم التطوير بواسطة مبرمج طموح © 2026</p>
+    <p>جميع الحقوق محفوظة - نظام التشفير السري</p>
+</div>
+
+<script>
+    let currentMode = 'symbols';
+
+    const symbolMap = {
+        'ا': '⟁', 'ب': '⧇', 'ت': '⧈', 'ث': '⧉', 'ج': '⧊', 'ح': '⧋', 'خ': '⧌', 'د': '⧍', 'ذ': '⧎', 'ر': '⧏', 'ز': '⧐', 'س': '⧑', 'ش': '⧒', 'ص': '⧓', 'ض': '⧔', 'ط': '⧕', 'ظ': '⧖', 'ع': '⧗', 'غ': '⧘', 'ف': '⧙', 'ق': '⧚', 'ك': '⧛', 'ل': '⧜', 'م': '⧝', 'ن': '⧞', 'ه': '⧟', 'و': '⧠', 'ي': '⧡', ' ': '  ',
+        'a': '⍙', 'b': '⍚', 'c': '⍛', 'd': '⍜', 'e': '⍝', 'f': '⍞', 'g': '⍠', 'h': '⍡', 'i': '⍢', 'j': '⍣', 'k': '⍤', 'l': '⍥', 'm': '⍦', 'n': '⍧', 'o': '⍨', 'p': '⍩', 'q': '⍪', 'r': '⍫', 's': '⍬', 't': '⍭', 'u': '⍮', 'v': '⍯', 'w': '⍰', 'x': '⍱', 'y': '⍲', 'z': '⍳'
+    };
+
+    const emojiMap = {
+        'ا': '🔥', 'ب': '💎', 'ت': '🤖', 'ث': '👻', 'ج': '🎮', 'ح': '⚽', 'خ': '🍕', 'د': '🚀', 'ذ': '👑', 'ر': '💀', 'ز': '⚡', 'س': '🐱', 'ش': '🍏', 'ص': '🛸', 'ض': '🎈', 'ط': '👑', 'ظ': '🧨', 'ع': '🕶️', 'غ': '🌋', 'ف': '🎭', 'ق': '🎱', 'ك': '🍪', 'ل': '🧊', 'م': '🌙', 'ن': '🧿', 'ه': '🌋', 'و': '🌊', 'ي': '🏆', ' ': '✨',
+        'a': '🍎', 'b': '🍌', 'c': '🌵', 'd': '🐬', 'e': '🌍', 'f': '🚁', 'g': '🍇', 'h': '🏠', 'i': '🍦', 'j': '🃏', 'k': '🔑', 'l': '🦁', 'm': '🍄', 'n': '🎯', 'o': '🐙', 'p': '🐧', 'q': '💎', 'r': '🌈', 's': '☀️', 't': '🐅', 'u': '🦄', 'v': '🎻', 'w': '🍉', 'x': '❌', 'y': '🟡', 'z': '🦓'
+    };
+
+    function switchMode(mode, btn) {
+        currentMode = mode;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const titles = {
+            'symbols': 'نظام التشفير الحالي: الرموز الغريبة',
+            'emoji': 'نظام التشفير الحالي: الإيموجي السري',
+            'matrix': 'نظام التشفير الحالي: خوارزمية الباينري (Matrix)'
+        };
+        document.getElementById('modeTitle').innerText = titles[mode];
+        document.getElementById('inputText').value = "";
+        document.getElementById('outputText').value = "";
+    }
+
+    function process(type) {
+        let input = document.getElementById("inputText").value;
+        let output = "";
+
+        if (currentMode === 'matrix') {
+            if (type === 1) { // تشفير باينري مطور
+                output = input.split('').map(char => {
+                    let binary = char.charCodeAt(0).toString(2);
+                    return binary.padStart(16, '0'); // نستخدم 16 بت لتعقيد الشكل
+                }).join(' ');
+            } else { // فك باينري
+                try {
+                    output = input.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
+                } catch(e) { output = "خطأ في الكود! تأكد أن النص باينري صحيح."; }
+            }
+        } else {
+            const map = currentMode === 'symbols' ? symbolMap : emojiMap;
+            const reverseMap = Object.fromEntries(Object.entries(map).map(([k, v]) => [v, k]));
+            
+            if (type === 1) {
+                for (let char of input.toLowerCase()) {
+                    output += map[char] || char;
+                }
+            } else {
+                let text = input;
+                const sortedSymbols = Object.keys(reverseMap).sort((a, b) => b.length - a.length);
+                for (let symbol of sortedSymbols) {
+                    text = text.split(symbol).join(reverseMap[symbol]);
+                }
+                output = text;
+            }
+        }
+        document.getElementById("outputText").value = output;
+    }
+
+    function copyText() {
+        let text = document.getElementById("outputText");
+        text.select();
+        document.execCommand("copy");
+        alert("تم النسخ بنجاح! 💾");
+    }
+</script>
+</body>
+</html>
