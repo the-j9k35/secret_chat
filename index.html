@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Secret Chat 2026</title>
+    <title>Secret Chat | النسخة الشاملة 2026</title>
     <style>
-        body { background-color: #0a0a0a; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; padding: 10px; transition: 0.5s; line-height: 1.6; }
-        .container { border: 2px solid #333; background: #161616; padding: 20px; border-radius: 15px; max-width: 480px; margin: auto; box-shadow: 0 0 30px rgba(0, 255, 0, 0.05); }
+        body { background-color: #0a0a0a; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; padding: 10px; line-height: 1.6; overflow-x: hidden; }
         
-        /* نظام التبويبات */
-        .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        /* التنقل العلوي */
+        .info-nav { margin: 10px auto 25px auto; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; max-width: 500px; }
+        .nav-link { font-size: 13px; color: #00ff00; background: rgba(0, 255, 0, 0.05); border: 1px solid #00ff00; padding: 8px 15px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .nav-link:hover { background: #00ff00; color: #000; box-shadow: 0 0 15px #00ff00; transform: translateY(-2px); }
+
+        /* حاوية التشفير الرئيسية */
+        .container { border: 2px solid #333; background: #161616; padding: 20px; border-radius: 15px; max-width: 480px; margin: auto; box-shadow: 0 0 30px rgba(0, 255, 0, 0.1); position: relative; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; }
         .tab-btn { flex: 1; padding: 10px; background: #222; border: 1px solid #444; color: #888; cursor: pointer; border-radius: 8px; font-size: 13px; transition: 0.3s; }
         .tab-btn.active { background: #00ff00; color: #000; font-weight: bold; box-shadow: 0 0 15px #00ff00; border-color: #00ff00; }
         
@@ -17,146 +22,182 @@
         textarea:focus { border-color: #00ff00; box-shadow: 0 0 5px #00ff00; }
         
         .btn-group { display: flex; gap: 8px; }
-        button { flex: 1; background: #1a1a1a; color: #00ff00; border: 1px solid #00ff00; padding: 12px; font-size: 16px; cursor: pointer; border-radius: 8px; margin: 5px 0; transition: 0.3s; }
-        button:hover { background: #00ff00; color: #000; box-shadow: 0 0 10px #00ff00; }
-        
-        .copy-btn { background: #333; color: #fff; border: none; width: 100%; margin-top: 10px; }
-        
-        h1 { font-size: 22px; color: #fff; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
-        .mode-info { font-size: 13px; color: #00ff00; margin-bottom: 15px; opacity: 0.8; }
+        button.action-btn { flex: 1; background: #1a1a1a; color: #00ff00; border: 1px solid #00ff00; padding: 12px; font-size: 16px; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+        button.action-btn:hover { background: #00ff00; color: #000; box-shadow: 0 0 10px #00ff00; }
+        .copy-btn { background: #333; color: #fff; border: none; width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; cursor: pointer; }
 
-        /* الأقسام الجديدة للربح وأدسنس */
-        .info-section { max-width: 600px; margin: 40px auto; text-align: right; background: #111; padding: 20px; border-radius: 10px; border-right: 4px solid #00ff00; }
-        .info-section h2 { color: #00ff00; font-size: 18px; border-bottom: 1px dashed #333; padding-bottom: 10px; }
-        .info-section p, .info-section li { color: #ccc; font-size: 14px; }
-        .footer { margin-top: 50px; font-size: 12px; color: #555; padding-bottom: 20px; }
+        /* مكتبة الرموز السفلية */
+        .symbol-library { margin: 40px auto; max-width: 800px; background: #111; border: 1px solid #222; border-radius: 15px; padding: 20px; text-align: right; }
+        .symbol-category { margin-bottom: 25px; }
+        .symbol-category h3 { color: #00ff00; font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 12px; }
+        .symbol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 4px; }
+        .symbol-item { background: #000; border: 1px solid #222; padding: 6px; border-radius: 4px; color: #fff; cursor: pointer; transition: 0.2s; font-size: 18px; text-align: center; }
+        .symbol-item:hover { border-color: #00ff00; color: #00ff00; transform: scale(1.2); z-index: 5; }
+
+        /* النوافذ المنبثقة */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
+        .modal-content { background: #111; margin: 10% auto; padding: 25px; border: 1px solid #00ff00; width: 80%; max-width: 500px; border-radius: 15px; text-align: right; animation: slideDown 0.3s; }
+        @keyframes slideDown { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
+        .close-btn { color: #ff0000; float: left; font-size: 28px; cursor: pointer; }
+
+        /* تنبيه النسخ */
+        #toast { visibility: hidden; background: #00ff00; color: #000; font-weight: bold; padding: 12px 25px; border-radius: 50px; position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 2000; }
+        #toast.show { visibility: visible; animation: fadeInOut 2s; }
+        @keyframes fadeInOut { 0%, 100% {opacity:0;} 20%, 80% {opacity:1;} }
     </style>
 </head>
-<body id="mainBody">
+<body>
 
-<div class="container" id="mainContainer">
+<div id="toast">تم النسخ بنجاح! 📋</div>
+
+<div class="info-nav">
+    <div class="nav-link" onclick="openModal('modalWhat')">💡 حول النظام</div>
+    <div class="nav-link" onclick="openModal('modalHow')">🛠️ ميكانيكية التشفير</div>
+    <div class="nav-link" onclick="openModal('modalPrivacy')">🛡️ معايير الخصوصية</div>
+</div>
+
+<div class="container">
     <h1>Secret Chat Systems</h1>
-    
     <div class="tabs">
         <button class="tab-btn active" onclick="switchMode('symbols', this)">👾 الرموز</button>
         <button class="tab-btn" onclick="switchMode('emoji', this)">😎 إيموجي</button>
         <button class="tab-btn" onclick="switchMode('matrix', this)">🧪 الهكر</button>
     </div>
 
-    <div id="ui-body">
-        <p class="mode-info" id="modeTitle">نظام التشفير الحالي: الرموز الغريبة</p>
-        
-        <textarea id="inputText" placeholder="أدخل النص السري هنا..."></textarea>
-        
-        <div class="btn-group">
-            <button onclick="process(1)">🔒 تشفير</button>
-            <button onclick="process(2)">🔓 فك</button>
-        </div>
-        
-        <textarea id="outputText" readonly placeholder="النتيجة ستظهر هنا..."></textarea>
-        
-        <button class="copy-btn" onclick="copyText()">📋 نسخ الكود السري</button>
+    <p id="modeTitle" style="font-size:12px; color:#00ff00; margin-bottom:10px;">نظام التشفير الحالي: الرموز الغريبة</p>
+    <textarea id="inputText" placeholder="أدخل النص السري هنا..."></textarea>
+    <div class="btn-group">
+        <button class="action-btn" onclick="process(1)">🔒 تشفير</button>
+        <button class="action-btn" onclick="process(2)">🔓 فك</button>
+    </div>
+    <textarea id="outputText" readonly placeholder="النتيجة..."></textarea>
+    <button class="copy-btn" onclick="copyMainOutput()">📋 نسخ الكود السري</button>
+</div>
+
+<div class="symbol-library">
+    <h2 style="text-align:center; color:#fff;">📚 مكتبة الرموز الشاملة (اضغط للنسخ)</h2>
+    
+    <div class="symbol-category">
+        <h3>✦ ليفل الوحش (الهيروغليفية)</h3>
+        <div class="symbol-grid" id="hieroGrid"></div>
+    </div>
+
+    <div class="symbol-category">
+        <h3>✦ هندسة وتقنية</h3>
+        <div class="symbol-grid" id="geoGrid"></div>
+    </div>
+
+    <div class="symbol-category">
+        <h3>✦ الخيمياء والغموض</h3>
+        <div class="symbol-grid" id="alchGrid"></div>
+    </div>
+
+    <div class="symbol-category">
+        <h3>✦ جمل ورموز مركبة</h3>
+        <div class="symbol-grid" id="ligGrid"></div>
     </div>
 </div>
 
-<div class="info-section">
-    <h2>ما هو نظام Ultimate Secret Chat؟</h2>
-    <p>مرحباً بك في نظام تشفير البيانات المتقدم لعام 2026. هذا الموقع مصمم لتوفير طبقة إضافية من الخصوصية لمراسلاتك اليومية. نحن نستخدم خوارزميات استبدال الرموز (Symbol Substitution) ونظام الباينري المعقد (Matrix Binary) لضمان أن رسائلك لا يقرأها إلا من يملك "مفتاح الحل".</p>
+<div id="modalWhat" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modalWhat')">&times;</span>
+        <h2>ما هو نظام Secret Chat؟</h2>
+        <p>هو نظام متطور لتشفير النصوص وتحويلها إلى رموز نادرة يصعب فهمها إلا من خلال هذا الموقع.</p>
+    </div>
 </div>
 
-<div class="info-section">
-    <h2>كيف يعمل التشفير هنا؟</h2>
-    <ul>
-        <li><strong>نظام الرموز:</strong> يقوم بتحويل الحروف العربية والإنجليزية إلى رموز هندسية نادرة يصعب تخمينها.</li>
-        <li><strong>نظام الإيموجي:</strong> يحول كلامك الجاد إلى سلسلة من الرموز التعبيرية الممتعة التي تبدو وكأنها مجرد "رسالة عشوائية".</li>
-        <li><strong>نظام الهكر (Matrix):</strong> يعتمد على تحويل النص إلى كود ثنائي (Binary) مكون من 16 بت، مما يعطي شكلاً برمجياً معقداً للرسالة.</li>
-    </ul>
+<div id="modalHow" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modalHow')">&times;</span>
+        <h2>ميكانيكية التشفير</h2>
+        <p>نستخدم خرائط معقدة تربط كل حرف أبجدي برمز يونيكود نادر أو إيموجي مخفي لضمان السرية التامة.</p>
+    </div>
 </div>
 
-<div class="info-section">
-    <h2>سياسة الخصوصية والأمان</h2>
-    <p>أمانك هو أولويتنا القصوى، ولذلك نتبع السياسات التالية:</p>
-    <ul>
-        <li><strong>التشفير المحلي:</strong> جميع عمليات التشفير وفك التشفير تتم داخل متصفحك فقط (Client-side). لا نقوم بإرسال أي نص تكتبه إلى خوادمنا.</li>
-        <li><strong>لا تخزين للبيانات:</strong> بمجرد إغلاق الصفحة، تختفي جميع النصوص المكتوبة نهائياً ولا يتم حفظها في أي قاعدة بيانات.</li>
-        <li><strong>الكوكيز:</strong> قد نستخدم ملفات تعريف ارتباط بسيطة لتحسين تجربة المستخدم وعرض الإعلانات المناسبة لك عبر شركائنا.</li>
-    </ul>
-</div>
-
-<div class="footer">
-    <p>تم التطوير بواسطة مبرمج طموح © 2026</p>
-    <p>جميع الحقوق محفوظة - نظام التشفير السري</p>
+<div id="modalPrivacy" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modalPrivacy')">&times;</span>
+        <h2>سياسة الخصوصية</h2>
+        <p>تشفيرك يتم داخل متصفحك فقط. نحن لا نحفظ أي نصوص أو كلمات مرور على خوادمنا.</p>
+    </div>
 </div>
 
 <script>
+    // بيانات الرموز والأنظمة
     let currentMode = 'symbols';
+    const symbolMap = { 'ا': '⟁', 'ب': '⧇', 'ت': '⧈', 'ث': '⧉', 'ج': '⧊', 'ح': '⧋', 'خ': '⧌', 'د': '⧍', 'ذ': '⧎', 'ر': '⧏', 'ز': '⧐', 'س': '⧑', 'ش': '⧒', 'ص': '⧓', 'ض': '⧔', 'ط': '⧕', 'ظ': '⧖', 'ع': '⧗', 'غ': '⧘', 'ف': '⧙', 'ق': '⧚', 'ك': '⧛', 'ل': '⧜', 'م': '⧝', 'ن': '⧞', 'ه': '⧟', 'و': '⧠', 'ي': '⧡', ' ': '  ' };
+    const emojiMap = { 'ا': '🔥', 'ب': '💎', 'ت': '🤖', 'ث': '👻', 'ج': '🎮', 'ح': '⚽', 'خ': '🍕', 'د': '🚀', 'ذ': '👑', 'ر': '💀', 'ز': '⚡', 'س': '🐱', 'ش': '🍏', 'ص': '🛸', 'ض': '🎈', 'ط': '👑', 'ظ': '🧨', 'ع': '🕶️', 'غ': '🌋', 'ف': '🎭', 'ق': '🎱', 'ك': '🍪', 'ل': '🧊', 'م': '🌙', 'ن': '🧿', 'ه': '🌋', 'و': '🌊', 'ي': '🏆', ' ': '✨' };
 
-    const symbolMap = {
-        'ا': '⟁', 'ب': '⧇', 'ت': '⧈', 'ث': '⧉', 'ج': '⧊', 'ح': '⧋', 'خ': '⧌', 'د': '⧍', 'ذ': '⧎', 'ر': '⧏', 'ز': '⧐', 'س': '⧑', 'ش': '⧒', 'ص': '⧓', 'ض': '⧔', 'ط': '⧕', 'ظ': '⧖', 'ع': '⧗', 'غ': '⧘', 'ف': '⧙', 'ق': '⧚', 'ك': '⧛', 'ل': '⧜', 'م': '⧝', 'ن': '⧞', 'ه': '⧟', 'و': '⧠', 'ي': '⧡', ' ': '  ',
-        'a': '⍙', 'b': '⍚', 'c': '⍛', 'd': '⍜', 'e': '⍝', 'f': '⍞', 'g': '⍠', 'h': '⍡', 'i': '⍢', 'j': '⍣', 'k': '⍤', 'l': '⍥', 'm': '⍦', 'n': '⍧', 'o': '⍨', 'p': '⍩', 'q': '⍪', 'r': '⍫', 's': '⍬', 't': '⍭', 'u': '⍮', 'v': '⍯', 'w': '⍰', 'x': '⍱', 'y': '⍲', 'z': '⍳'
-    };
+    // الرموز الضخمة للمكتبة السفلية
+    const hData = "𓀀𓀁𓀂𓀃𓀄𓀅𓀆𓀇𓀈𓀉𓀊𓀋𓀌𓀍𓀎𓀏𓀐𓀑𓀒𓀓𓀔𓀕𓀖𓀗𓀘𓀙𓀚𓀛𓀜𓀝𓀞𓀟𓀠𓀡𓀢𓀣𓀤𓀥𓀦𓀧𓀨𓀩𓀪𓀫𓀬𓀭𓀮𓀯𓀰𓀱𓀲𓀳𓀴𓀵𓀶𓀷𓀸𓀹𓀺𓀻𓀼𓀽𓀾𓀿𓁀𓁁𓁂𓁃𓁄𓁅𓁆𓁇𓁈𓁉𓁊𓁋𓁌𓁍𓁎𓁏𓁐𓁑𓁒𓁓𓁔𓁕𓁖𓁗𓁘𓁙𓁚𓁛𓁜𓁝𓁞𓁟𓁠𓁡𓁢𓁣𓁤𓁥𓁦𓁧𓁨𓁩𓁪𓁫𓁬𓁭𓁮𓁯𓁰𓁱𓁲𓁳𓁴𓁵𓁶𓁷𓁸𓁹𓁺𓁻𓁼𓁽𓁾𓁿𓂀𓂁𓂂𓂃𓂄𓂅𓂆𓂇𓂈𓂉𓂊𓂋𓂌𓂍𓂎𓂏𓂐𓂑𓂒𓂓𓂔𓂕𓂖𓂗𓂘𓂙𓂚𓂛𓂜𓂝𓂞𓂟𓂠𓂡𓂢𓂣𓂤𓂥𓂦𓂧𓂨𓂩𓂪𓂫𓂬𓂭𓂮𓂯𓂰𓂱𓂲𓂳𓂴𓂵𓂶𓂷𓂸𓂹𓂺𓂻𓂼𓂽𓂾𓂿𓃀𓃁𓃂𓃃𓃄𓃅𓃆𓃇𓃈𓃉𓃊𓃋𓃌𓃍𓃎𓃏𓃐𓃑𓃒𓃓𓃔𓃕𓃖𓃗𓃘𓃙𓃚𓃛𓃜𓃝𓃞𓃟𓃠𓃡𓃢𓃣𓃤𓃥𓃦𓃧𓃨𓃩𓃪𓃫𓃬𓃭𓃮𓃯𓃰𓃱𓃲𓃳𓃴𓃵𓃶𓃷𓃸𓃹𓃺𓃻𓃼𓃽𓃾𓃿𓄀𓄁𓄂𓄃𓄄𓄅𓄆𓄇𓄈𓄉𓄊𓄋𓄌𓄍𓄎𓄏𓄐𓄑𓄒𓄓𓄔𓄕𓄖𓄗𓄘𓄙𓄚𓄛𓄜𓄝𓄞𓄟𓄠𓄡𓄢𓄣𓄤𓄥𓄦𓄧𓄨𓄩𓄪𓄫𓄬𓄭𓄮𓄯𓄰𓄱𓄲𓄳𓄴𓄵𓄶𓄷𓄸𓄹𓄺𓄻𓄼𓄽𓄾𓄿𓅀𓅁𓅂𓅃𓅄𓅅𓅆𓅇𓅈𓅉𓅊𓅋𓅌𓅍𓅎𓅏𓅐𓅑𓅒𓅓𓅔𓅕𓅖𓅗𓅘𓅙𓅚𓅛𓅜𓅝𓅞𓅟𓅠𓅡𓅢𓅣𓅤𓅥𓅦𓅧𓅨𓅩𓅪𓅫𓅬𓅭𓅮𓅯𓅰𓅱𓅲𓅳𓅴𓅵𓅶𓅷𓅸𓅹𓅺𓅻𓅼𓅽𓅾𓅿𓆀𓆁𓆂𓆃𓆄𓆅𓆆𓆇𓆈𓆉𓆊𓆋𓆌𓆍𓆎𓆏𓆐𓆑𓆒𓆓𓆔𓆕𓆖𓆗𓆘𓆙𓆚𓆛𓆜𓆝𓆞𓆟𓆠𓆡𓆢𓆣𓆤𓆥𓆦𓆧𓆨𓆩𓆪𓆫𓆬𓆭𓆮𓆯𓆰𓆱𓆲𓆳𓆴𓆵𓆶𓆷𓆸𓆹𓆺𓆻𓆼𓆽𓆾𓆿𓇀𓇁𓇂𓇃𓇄𓇅𓇆𓇇𓇈𓇉𓇊𓇋𓇌𓇍𓇎𓇏𓇐𓇑𓇒𓇓𓇔𓇕𓇖𓇗𓇘𓇙𓇚𓇛𓇜𓇝𓇞𓇟𓇠𓇡𓇢𓇣𓇤𓇥𓇦𓇧𓇨𓇩𓇪𓇫𓇬𓇭𓇮𓇯𓇰𓇱𓇲𓇳𓇴𓇵𓇶𓇷𓇸𓇹𓇺𓇻𓇼𓇽𓇾𓇿𓈀𓈁𓈂𓈃𓈄𓈅𓈆𓈇𓈈𓈉𓈊𓈋𓈌𓈍𓈎𓈏𓈐𓈑𓈒𓈓𓈔𓈕𓈖𓈗𓈘𓈙𓈚𓈛𓈜𓈝𓈞𓈟𓈠𓈡𓈢𓈣𓈤𓈥𓈦𓈧𓈨𓈩𓈪𓈫𓈬𓈭𓈮𓈯𓈰𓈱𓈲𓈳𓈴𓈵𓈶𓈷𓈸𓈹𓈺𓈻𓈼𓈽𓈾𓈿𓉀𓉁𓉂𓉃𓉄𓉅𓉆𓉇𓉈𓉉𓉊𓉋𓉌𓉍𓉎𓉏𓉐𓉑𓉒𓉓𓉔𓉕𓉖𓉗𓉘𓉙𓉚𓉛𓉜𓉝𓉞𓉟𓉠𓉡𓉢𓉣𓉤𓉥𓉦𓉧𓉨𓉩𓉪𓉫𓉬𓉭𓉮𓉯𓉰𓉱𓉲𓉳𓉴𓉵𓉶𓉷𓉸𓉹𓉺𓉻𓉼𓉽𓉾𓉿𓊀𓊁𓊂𓊃𓊄𓊅𓊆𓊇𓊈𓊉𓊊𓊋𓊌𓊍𓊎𓊏𓊐𓊑𓊒𓊓𓊔𓊕𓊖𓊗𓊘𓊙𓊚𓊛𓊜𓊝𓊞𓊟𓊠𓊡𓊢𓊣𓊤𓊥𓊦𓊧𓊨𓊩𓊪𓊫𓊬𓊭𓊮𓊯𓊰𓊱𓊲𓊳𓊴𓊵𓊶𓊷𓊸𓊹𓊺𓊻𓊼𓊽𓊾𓊿𓋀𓋁𓋂𓋃𓋄𓋅𓋆𓋇𓋈𓋉𓋊𓋋𓋌𓋍𓋎𓋏𓋐𓋑𓋒𓋓𓋔𓋕𓋖𓋗𓋘𓋙𓋚𓋛𓋜𓋝𓋞𓋟𓋠𓋡𓋢𓋣𓋤𓋥𓋦𓋧𓋨𓋩𓋪𓋫𓋬𓋭𓋮𓋯𓋰𓋱𓋲𓋳𓋴𓋵𓋶𓋷𓋸𓋹𓋺𓋻𓋼𓋽𓋾𓋿𓌀𓌁𓌂𓌃𓌄𓌅𓌆𓌇𓌈𓌉𓌊𓌋𓌌𓌍𓌎𓌏𓌐𓌑𓌒𓌓𓌔𓌕𓌖𓌗𓌘𓌙𓌚𓌛𓌜𓌝𓌞𓌟𓌠𓌡𓌢𓌣𓌤𓌥𓌦𓌧𓌨𓌩𓌪𓌫𓌬𓌭𓌮𓌯𓌰𓌱𓌲𓌳𓌴𓌵𓌶𓌷𓌸𓌹𓌺𓌻𓌼𓌽𓌾𓌿𓍀𓍁𓍂𓍃𓍄𓍅𓍆𓍇𓍈𓍉𓍊𓍋𓍌𓍍𓍎𓍏𓍐𓍑𓍒𓍓𓍔𓍕𓍖𓍗𓍘𓍙𓍚𓍛𓍜𓍝𓍞𓍟𓍠𓍡𓍢𓍣𓍤𓍥𓍦𓍧𓍨𓍩𓍪𓍫𓍬𓍭𓍮𓍯𓍰𓍱𓍲𓍳𓍴𓍵𓍶𓍷𓍸𓍹𓍺𓍻𓍼𓍽𓍾𓍿𓎀𓎁𓎂𓎃𓎄𓎅𓎆𓎇𓎈𓎉𓎊𓎋𓎌𓎍𓎎𓎏𓎐𓎑𓎒𓎓𓎔𓎕𓎖𓎗𓎘𓎙𓎚𓎛𓎜𓎝𓎞𓎟𓎠𓎡𓎢𓎣𓎤𓎥𓎦𓎧𓎨𓎩𓎪𓎫𓎬𓎭𓎮𓎯𓎰𓎱𓎲𓎳𓎴𓎵𓎶𓎷𓎸𓎹𓎺𓎻𓎼𓎽𓎾𓎿𓏀𓏁𓏂𓏃𓏄𓏅𓏆𓏇𓏈𓏉𓏊𓏋𓏌𓏍𓏎𓏏𓏐𓏑𓏒𓏓𓏔𓏕𓏖𓏗𓏘𓏙𓏚𓏛𓏜𓏝𓏞𓏟𓏠𓏡𓏢𓏣𓏤𓏥𓏦𓏧𓏨𓏩𓏪𓏫𓏬𓏭𓏮𓏯𓏰𓏱𓏲𓏳𓏴𓏵𓏶𓏷𓏸𓏹𓏺𓏻𓏼𓏽𓏾𓏿𓐀𓐁𓐂𓐃𓐄𓐅𓐆𓐇𓐈𓐉𓐊𓐋𓐌𓐍𓐎𓐏";
+    const gData = "⧇⧈⧉⧊⧋⧌⧍⧎⧏⧐⧑⧒⧓⧔⧕⧖⧗⧘⧙⧚⧛⧜⧝⧞⧟⧠⧡⌀⌁⌂⌘⌮⌯⌰⌱⌲⌳⌬⏧⍼⍙⍚⍛⍜⍝⍞⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳";
+    const aData = "🜁🜂🜃🜄🜍🜞🝐🜚🜛🜜🜝🜞🜟🜠🜡🜢🜣🜤🜥🜦🜧🜨☫☬☤☥☸☯☾☽☼☄𓇽𓃠𓆣𓇗𓇹𓈝𓊝𓊮𓋹𓌔𓍄𓎂";
+    const lData = "﷽ﷺﷻ﷼ﷴﷳﶵﶴﶳﶲﶱﶰﶯﶮﶭﶬﶫﶪﶩﶨﶧﶦﶥﶤﶣﶢﶡﶠﶟﶞﶝﶜﶛﶚﶙﶘﶗﶖﶕﶔﶓﶒ﶑﶐";
 
-    const emojiMap = {
-        'ا': '🔥', 'ب': '💎', 'ت': '🤖', 'ث': '👻', 'ج': '🎮', 'ح': '⚽', 'خ': '🍕', 'د': '🚀', 'ذ': '👑', 'ر': '💀', 'ز': '⚡', 'س': '🐱', 'ش': '🍏', 'ص': '🛸', 'ض': '🎈', 'ط': '👑', 'ظ': '🧨', 'ع': '🕶️', 'غ': '🌋', 'ف': '🎭', 'ق': '🎱', 'ك': '🍪', 'ل': '🧊', 'م': '🌙', 'ن': '🧿', 'ه': '🌋', 'و': '🌊', 'ي': '🏆', ' ': '✨',
-        'a': '🍎', 'b': '🍌', 'c': '🌵', 'd': '🐬', 'e': '🌍', 'f': '🚁', 'g': '🍇', 'h': '🏠', 'i': '🍦', 'j': '🃏', 'k': '🔑', 'l': '🦁', 'm': '🍄', 'n': '🎯', 'o': '🐙', 'p': '🐧', 'q': '💎', 'r': '🌈', 's': '☀️', 't': '🐅', 'u': '🦄', 'v': '🎻', 'w': '🍉', 'x': '❌', 'y': '🟡', 'z': '🦓'
-    };
+    // وظائف الموقع
+    function openModal(id) { document.getElementById(id).style.display = "block"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+    window.onclick = (e) => { if (e.target.className === 'modal') e.target.style.display = "none"; };
+
+    function showToast() {
+        const t = document.getElementById("toast");
+        t.className = "show";
+        setTimeout(() => t.className = "", 2000);
+    }
+
+    function render(str, containerId) {
+        const c = document.getElementById(containerId);
+        Array.from(str).forEach(char => {
+            const s = document.createElement('span');
+            s.className = 'symbol-item';
+            s.innerText = char;
+            s.onclick = () => { navigator.clipboard.writeText(char); showToast(); };
+            c.appendChild(s);
+        });
+    }
 
     function switchMode(mode, btn) {
         currentMode = mode;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        const titles = {
-            'symbols': 'نظام التشفير الحالي: الرموز الغريبة',
-            'emoji': 'نظام التشفير الحالي: الإيموجي السري',
-            'matrix': 'نظام التشفير الحالي: خوارزمية الباينري (Matrix)'
-        };
-        document.getElementById('modeTitle').innerText = titles[mode];
-        document.getElementById('inputText').value = "";
-        document.getElementById('outputText').value = "";
+        const ts = { 'symbols': 'نظام التشفير الحالي: الرموز الغريبة', 'emoji': 'نظام التشفير الحالي: الإيموجي السري', 'matrix': 'نظام التشفير الحالي: خوارزمية الماتريكس' };
+        document.getElementById('modeTitle').innerText = ts[mode];
     }
 
     function process(type) {
         let input = document.getElementById("inputText").value;
         let output = "";
-
         if (currentMode === 'matrix') {
-            if (type === 1) { // تشفير باينري مطور
-                output = input.split('').map(char => {
-                    let binary = char.charCodeAt(0).toString(2);
-                    return binary.padStart(16, '0'); // نستخدم 16 بت لتعقيد الشكل
-                }).join(' ');
-            } else { // فك باينري
-                try {
-                    output = input.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
-                } catch(e) { output = "خطأ في الكود! تأكد أن النص باينري صحيح."; }
-            }
+            if (type === 1) output = input.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+            else try { output = input.split(' ').map(b => String.fromCharCode(parseInt(b, 2))).join(''); } catch(e) { output = "خطأ!"; }
         } else {
             const map = currentMode === 'symbols' ? symbolMap : emojiMap;
-            const reverseMap = Object.fromEntries(Object.entries(map).map(([k, v]) => [v, k]));
-            
-            if (type === 1) {
-                for (let char of input.toLowerCase()) {
-                    output += map[char] || char;
-                }
-            } else {
+            const rev = Object.fromEntries(Object.entries(map).map(([k, v]) => [v, k]));
+            if (type === 1) for (let char of input) output += map[char] || char;
+            else {
                 let text = input;
-                const sortedSymbols = Object.keys(reverseMap).sort((a, b) => b.length - a.length);
-                for (let symbol of sortedSymbols) {
-                    text = text.split(symbol).join(reverseMap[symbol]);
-                }
+                const sorted = Object.keys(rev).sort((a,b) => b.length - a.length);
+                for (let s of sorted) text = text.split(s).join(rev[s]);
                 output = text;
             }
         }
         document.getElementById("outputText").value = output;
     }
 
-    function copyText() {
-        let text = document.getElementById("outputText");
+    function copyMainOutput() {
+        const text = document.getElementById("outputText");
         text.select();
         document.execCommand("copy");
-        alert("تم النسخ بنجاح! 💾");
+        showToast();
     }
+
+    // بدء التشغيل
+    window.onload = () => {
+        render(hData, 'hieroGrid');
+        render(gData, 'geoGrid');
+        render(aData, 'alchGrid');
+        render(lData, 'ligGrid');
+    };
 </script>
 </body>
 </html>
