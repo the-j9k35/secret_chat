@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Chat Ultimate v7.0</title>
+    <meta name="description" content="أداة Secret Chat Pro لتشفير النصوص وحماية الخصوصية الرقمية باستخدام الرموز والماتريكس. أداة آمنة تعمل 100% داخل المتصفح.">
+    <title>Secret Chat Pro | أداة التشفير وحماية الخصوصية</title>
     <style>
         :root { --neon: #00ff41; --bg: #050505; }
         body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 10px; margin: 0; }
+        
+        /* القائمة العلوية المحدثة لتناسب الروابط */
+        .top-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .info-trigger { text-decoration: none; display: inline-block; background: transparent; border: 1px solid #333; color: #888; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; transition: 0.3s; font-family: inherit; }
+        .info-trigger:hover { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 10px rgba(0,255,65,0.2); }
+
+        /* حاوية الأداة */
         .container { border: 2px solid #222; background: #111; padding: 20px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 0 25px rgba(0, 255, 65, 0.2); }
         
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; }
@@ -15,15 +23,25 @@
 
         textarea { width: 93%; height: 90px; margin: 10px 0; background: #000; color: var(--neon); border: 1px solid #333; padding: 12px; font-size: 16px; border-radius: 10px; outline: none; resize: none; }
         .btn-group { display: flex; gap: 8px; }
-        button.action-btn { flex: 1; background: #1a1a1a; color: var(--neon); border: 1px solid var(--neon); padding: 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
+        button.action-btn { flex: 1; background: #1a1a1a; color: var(--neon); border: 1px solid var(--neon); padding: 15px; cursor: pointer; border-radius: 10px; font-weight: bold; transition: 0.2s; }
         button.action-btn:active { background: var(--neon); color: #000; transform: translateY(2px); }
 
-        .library-section { margin-top: 30px; text-align: right; background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 15px; max-width: 850px; margin: 30px auto; }
-        .symbol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 6px; max-height: 500px; overflow-y: auto; padding: 10px; border: 1px solid #1a1a1a; background: #000; border-radius: 10px; }
-        .s-item { background: #111; border: 1px solid #222; padding: 10px; border-radius: 6px; color: #fff; cursor: pointer; text-align: center; font-size: 22px; }
-        .s-item:hover { border-color: var(--neon); color: var(--neon); transform: scale(1.2); z-index: 10; }
+        .copy-btn { width: 100%; margin-top: 10px; background: var(--neon); color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .copy-btn:hover { background: #00cc33; }
+
+        /* قسم SEO والإخلاء */
+        .seo-panel { max-width: 850px; margin: 30px auto; background: #0a0a0a; border: 1px solid #222; padding: 25px; border-radius: 15px; color: #ccc; line-height: 1.8; text-align: right; }
+        .seo-panel h2 { color: var(--neon); border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 20px; }
+        .seo-panel p { font-size: 14px; }
+        .seo-panel ul { font-size: 14px; padding-right: 20px; }
         
-        #toast { visibility: hidden; background: var(--neon); color: #000; padding: 12px 25px; border-radius: 50px; position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 2000; font-weight: bold; }
+        /* مكتبة الرموز */
+        .library-section { text-align: right; background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 15px; max-width: 850px; margin: 30px auto; }
+        .symbol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 6px; max-height: 400px; overflow-y: auto; padding: 10px; border: 1px solid #1a1a1a; background: #000; border-radius: 10px; }
+        .s-item { background: #111; border: 1px solid #222; padding: 10px; border-radius: 6px; color: #fff; cursor: pointer; text-align: center; transition: 0.2s; }
+        .s-item:hover { border-color: var(--neon); color: var(--neon); transform: scale(1.1); }
+
+        #toast { visibility: hidden; background: var(--neon); color: #000; padding: 12px 25px; border-radius: 50px; position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 4000; font-weight: bold; }
         #toast.show { visibility: visible; animation: fadeInOut 2s; }
         @keyframes fadeInOut { 0%, 100% {opacity:0;} 20%, 80% {opacity:1;} }
     </style>
@@ -32,46 +50,74 @@
 
 <div id="toast">تم النسخ! 📋</div>
 
-<div class="container">
-    <h1 style="text-align:center;">SECRET CHAT PRO</h1>
-    
-    <div class="tabs">
-        <button id="b-mat" class="tab-btn active" onclick="setMode('mat')">🧪 الماتريكس</button>
-        <button id="b-emo" class="tab-btn" onclick="setMode('emo')">😎 إيموجي</button>
-        <button id="b-sym" class="tab-btn" onclick="setMode('sym')">👾 الرموز</button>
-    </div>
+<div class="top-nav">
+    <a href="history.html" target="_blank" class="info-trigger">📜 تاريخ التشفير</a>
+    <a href="privacy.html" target="_blank" class="info-trigger">🛡️ سياسة الخصوصية</a>
+    <a href="why.html" target="_blank" class="info-trigger">🧪 لماذا التشفير؟</a>
+    <a href="contact.html" target="_blank" class="info-trigger" style="border-color:var(--neon); color:#fff;">📧 اتصل بنا</a>
+</div>
 
-    <textarea id="in" placeholder="أدخل النص (عربي/English)..."></textarea>
+<div class="container">
+    <h1 style="text-align:center; font-size: 24px;">SECRET CHAT PRO</h1>
+    <div class="tabs">
+        <button id="b-sym" class="tab-btn active" onclick="setMode('sym')">👾 الرموز</button>
+        <button id="b-mat" class="tab-btn" onclick="setMode('mat')">🧪 الماتريكس</button>
+        <button id="b-emo" class="tab-btn" onclick="setMode('emo')">😎 إيموجي</button>
+    </div>
+    <textarea id="in" placeholder="أدخل النص هنا (عربي / English)..."></textarea>
     <div class="btn-group">
         <button class="action-btn" onclick="run(1)">🔒 تشفير</button>
         <button class="action-btn" onclick="run(2)">🔓 فك التشفير</button>
     </div>
-    <textarea id="out" readonly placeholder="النتيجة المشفرة..."></textarea>
+    <textarea id="out" readonly placeholder="النتيجة..."></textarea>
+    <button class="copy-btn" onclick="copyResult()">📋 نسخ النتيجة النهائية</button>
+</div>
+
+<div class="seo-panel">
+    <h2>📑 دليل الأمان وإخلاء المسؤولية</h2>
+    <p>أهلاً بك في <strong>Secret Chat Pro</strong>، الأداة المصممة خصيصاً لتعزيز <strong>الخصوصية الاجتماعية</strong> وحماية نصوصك من أعين المتطفلين. نحن نستخدم تقنيات استبدال الرموز (Substitution Ciphers) المتقدمة لتمويه النصوص.</p>
+    <ul>
+        <li><strong>أمان محلي 100%:</strong> لا يتم إرسال أي بيانات أو نصوص إلى أي خوادم خارجية. المعالجة تتم بالكامل داخل متصفحك (Client-side).</li>
+        <li><strong>إخلاء مسؤولية:</strong> هذه الأداة مخصصة للأغراض التعليمية والترفيهية والخصوصية الشخصية، ولا تُعد بديلاً عن التشفير العسكري (مثل AES-256) للبيانات الحكومية أو البنكية بالغة الحساسية.</li>
+        <li><strong>حماية المحتوى:</strong> نوصي بحفظ نصوصك الأصلية في مكان آمن، حيث لا يمكننا استرجاع النصوص المشفرة إذا تم فقدانها بعد إغلاق المتصفح.</li>
+    </ul>
+    <p>باستخدامك لهذه الأداة، فإنك توافق على شروط الاستخدام المذكورة وتتحمل المسؤولية الكاملة عن طبيعة النصوص التي تقوم بتشفيرها.</p>
 </div>
 
 <div class="library-section">
-    <h2 style="text-align:center; color:var(--neon);">مكتبة الرموز الكاملة</h2>
+    <h2 style="text-align:center; color:var(--neon); font-size:18px;">مكتبة الرموز الشاملة للتشفير</h2>
     <div class="symbol-grid" id="fullLibrary"></div>
 </div>
 
 <script>
-    let mode = 'mat';
+    let mode = 'sym'; 
     const dicts = {
-        mat: { // نظام الماتريكس (بيناري معقد)
-            'ا':'0110','ب':'0111','ت':'1000','ث':'1001','ج':'1010','ح':'1011','خ':'1100','د':'1101','ذ':'1110','ر':'1111','ز':'0001','س':'0010','ش':'0011','ص':'0100','ض':'0101','ط':'11110','ظ':'11111','ع':'10101','غ':'01010','ف':'11011','ق':'00110','ك':'10010','ل':'01100','م':'10100','ن':'00011','ه':'11100','و':'00101','ي':'10001','a':'101','b':'110','c':'111','d':'000','e':'001','f':'010','g':'1111','h':'0000','i':'1010','j':'0101','k':'1101','l':'1011','m':'1110','n':'0111','o':'0110','p':'1001','q':'1000','r':'0100','s':'0011','t':'0010','u':'0001','v':'10101','w':'01010','x':'11001','y':'10110','z':'11101',' ':'  '
-        },
-        sym: { // نظام الرموز (تشفير حقيقي)
-            'ا':'𓀀','ب':'𓆣','ت':'𓇽','ث':'𓈝','ج':'𓉐','ح':'𓊄','خ':'𓋹','د':'𓌎','ذ':'𓍔','ر':'𓎂','ز':'𓏏','س':'𓐍','ش':'𓐴','ص':'𓀬','ض':'𓁺','ط':'𓃠','ظ':'𓄿','ع':'𓅓','غ':'𓆙','ف':'𓈓','ق':'𓉔','ك':'𓊖','ل':'𓋴','م':'𓌗','ن':'𓍱','ه':'𓎱','و':'𓏲','ي':'𓐑','a':'𓇊','b':'𓈗','c':'𓉈','d':'𓊍','e':'𓋒','f':'𓌓','g':'𓍕','h':'𓎟','i':'𓏛','j':'𓐠','k':'𓀣','l':'𓁏','m':'𓂊','n':'𓃒','o':'𓄅','p':'𓅂','q':'𓆃','r':'𓇓','s':'𓈥','t':'𓉬','u':'𓊵','v':'𓋾','w':'𓌨','x':'𓍯','y':'𓎵','z':'𓏤',' ':'  '
-        },
-        emo: { // نظام الإيموجي
-            'ا':'🔥','ب':'💎','ت':'🤖','ث':'👻','ج':'🎮','ح':'⚽','خ':'🍕','د':'🚀','ر':'💀','س':'🐱','ش':'🍏','ص':'🛸','ع':'🕶️','ف':'🎭','ق':'🎱','ك':'🍪','ل':'🧊','م':'🌙','ن':'🧿','ه':'🌋','و':'🌊','ي':'🏆','a':'🍎','b':'🍌','c':'🌵','d':'🐶','e':'📧','f':'🦊','g':'🍇','h':'🖐️','i':'ℹ️','j':'🃏','k':'🔑','l':'🍭','m':'🐭','n':'🌃','o':'👌','p':'🍕','q':'❓','r':'🌈','s':'☀️','t':'🧸','u':'🦄','v':'✌️','w':'🌍','x':'❌','y':'🌕','z':'⚡',' ':'✨'
-        }
+        mat: {'ا':'bullet;','ب':'⫘','ت':'⫗','ث':'⫙','ج':'⩔','ح':'⩓','خ':'⩒','د':'⩑','ذ':'⩐','ر':'⩏','ز':'⩎','س':'⩍','ش':'⩌','ص':'⩋','ض':'⩊','ط':'⩉','ظ':'⩈','ع':'⩇','غ':'⩆','ف':'⩅','ق':'⩄','ك':'⩃','ل':'⩂','م':'⩁','ن':'⩀','ه':'⨿','و':'⨾','ي':'⨽','a':'⦚','b':'⦙','c':'⦘','d':'⦗','e':'⦖','f':'⦕','g':'⦔','h':'⦓','i':'⦒','j':'⦑','k':'⦐','l':'⦏','m':'⦎','n':'⦍','o':'⦌','p':'⦋','q':'⦊','r':'⦉','s':'⦈','t':'⦇','u':'⦆','v':'⦅','w':'⦄','x':'⦃','y':'⦂','z':'⦁',' ':'  '},
+        sym: {'ا':'⧇','ب':'⧈','ت':'⧉','ث':'⧊','ج':'⧋','ح':'⧌','خ':'⧍','د':'⧎','ذ':'⧏','ر':'⧐','ز':'⧑','س':'⧒','ش':'⧓','ص':'⧔','ض':'⧕','ط':'⧖','ظ':'⧗','ع':'⧘','غ':'⧙','ف':'⧚','ق':'⧛','ك':'⧜','ل':'⧝','م':'⧞','ن':'⧟','ه':'⧠','و':'⧡','ي':'⧢','a':'⌬','b':'⏧','c':'⌘','d':'⌮','e':'⌯','f':'⌰','g':'⌱','h':'⌲','i':'⌳','j':'⌀','k':'⌁','l':'⌂','m':'⍝','n':'⍟','o':'⍣','p':'⍤','q':'⍥','r':'⍨','s':'⍩','t':'⍫','u':'⍬','v':'⍭','w':'⍮','x':'⍯','y':'⍰','z':'⍱',' ':'  '},
+        emo: {'ا':'👤','ب':'🌑','ت':'🔋','ث':'🧬','ج':'🌌','ح':'🗝️','خ':'⛓️','د':'🛰️','ر':'⚔️','س':'🧿','ش':'⚡','ص':'🔮','ض':'📡','ط':'🐲','ظ':'🪐','ع':'👁️‍🗨️','غ':'🌫️','ف':'🎭','ق':'🧩','ك':'🧪','ل':'🧬','م':'🌙','ن':'🌑','ه':'⛩️','و':'🌀','ي':'💎','a':'👽','b':'👾','c':'🤖','d':'👺','e':'👻','f':'💀','g':'☠️','h':'🤡','i':'👹','j':'🎃','k':'🧛','l':'🧟','m':'🧙','n':'🧝','o':'🧞','p':'🧜','q':'🧚','r':'👼','s':'💂','t':'🕵️','u':'🤴','v':'👰','w':'🤵','x':'🤶','y':'🎅','z':'👼',' ':'✨'}
     };
 
     function setMode(m) {
         mode = m;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('b-' + m).classList.add('active');
+    }
+
+    function showToast(m) { 
+        const t = document.getElementById("toast"); 
+        t.innerText = m; 
+        t.className = "show"; 
+        setTimeout(() => t.className = "", 2000); 
+    }
+
+    function copyResult() {
+        const o = document.getElementById("out");
+        if (o.value) { 
+            navigator.clipboard.writeText(o.value); 
+            showToast("تم نسخ النتيجة بنجاح! ✅"); 
+        } else {
+            showToast("لا يوجد نص لنسخه! ⚠️");
+        }
     }
 
     function run(type) {
@@ -82,7 +128,7 @@
         
         if (type === 1) { 
             for (let c of input) res += d[c] || c; 
-        } else {
+        } else { 
             res = input;
             const rev = Object.fromEntries(Object.entries(d).map(([k, v]) => [v, k]));
             const sorted = Object.keys(rev).sort((a, b) => b.length - a.length);
@@ -96,16 +142,19 @@
 
     window.onload = () => {
         const grid = document.getElementById("fullLibrary");
-        // كل الرموز بدون أي نقص
-        const allSymbols = "𓀀𓀁𓀂𓀃𓀄𓀅𓀆𓀇𓀈𓀉𓀊𓀋𓀌𓀍𓀎𓀏𓀐𓀑𓀒𓀓𓀔𓀕𓀖𓀗𓀘𓀙𓀚𓀛𓀜𓀝𓀞𓀟𓀠𓀡𓀢𓀣𓀤𓀥𓀦𓀧𓀨𓀩𓀪𓀫𓀬𓀭𓀮𓀯𓀰𓀱𓀲𓀳𓀴𓀵𓀶𓀷𓀸𓀹𓀺𓀻𓀼𓀽𓀾𓀿𓂀𓁀𓁁𓁂𓁃𓁄𓁅𓁆𓁇𓁈𓁉𓁊𓁋𓁌𓁍𓁎𓁏𓁐𓁑𓁒𓁓𓁔𓁕𓁖𓁗𓁘𓁙𓁚𓁛𓁜𓁝𓁞𓁟𓁠𓁡𓁢𓁣𓁤𓁥𓁦𓁧𓁨𓁩𓁪𓁫𓁬𓁭𓁮𓁯𓁰𓁱𓁲𓁳𓁴𓁵𓁶𓁷𓁸𓁹𓁺𓁻𓁼𓁽𓁾𓁿𓃀𓃁𓃂𓃃𓃄𓃅𓃆𓃇𓃈𓃉𓃊𓃋𓃌𓃍𓃎𓃏𓃐𓃑𓃒𓃓𓃔𓃕𓃖𓃗𓃘𓃙𓃚𓃛𓃜𓃝𓃞𓃟𓃠𓃡𓃢𓃣𓃤𓃥𓃦𓃧𓃨𓃩𓃪𓃫𓃬𓃭𓃮𓃯𓃰𓃱𓃲𓃳𓃴𓃵𓃶𓃷𓃸𓃹𓃺𓃻𓃼𓃽𓃾𓃿𓅀𓅁𓅂𓅃𓅄𓅅𓅆𓅇𓅈𓅉𓅊𓅋𓅌𓅍𓅎𓅏𓅐𓅑𓅒𓅓𓅔𓅕𓅖𓅗𓅘𓅙𓅚𓅛𓅜𓅝𓅞𓅟𓅠𓅡𓅢𓅣𓅤𓅥𓅦𓅧𓅨𓅩𓅪𓅫𓅬𓅭𓅮𓅯𓅰𓅱𓅲𓅳𓅴𓅵𓅶𓅷𓅸𓅹𓅺𓅻𓅼𓅽𓅾𓅿𓆀𓆁𓆂𓆃𓆄𓆅𓆆𓆇𓆈𓆉𓆊𓆋𓆌𓆍𓆎𓆏𓆐𓆑𓆒𓆓𓆔𓆕𓆖𓆗𓆘𓆙𓆚𓆛𓆜𓆝𓆞𓆟𓆠𓆡𓆢𓆣𓆤𓆥𓆦𓆧𓆨𓆩𓆪𓆫𓆬𓆭𓆮𓆯𓆰𓆱𓆲𓆳𓆴𓆵𓆶𓆷𓆸𓆹𓆺𓆻𓆼𓆽𓆾𓆿𓇀𓇁𓇂𓇃𓇄𓇅𓇆𓇇𓇈𓇉𓇊𓇋𓇌𓇍𓇎𓇏𓇐𓇑𓇒𓇓𓇔𓇕𓇖𓇗𓇘𓇙𓇚𓇛𓇜𓇝𓇞𓇟𓇠𓇡𓇢𓇣𓇤𓇥𓇦𓇧𓇨𓇩𓇪𓇫𓇬𓇭𓇮𓇯𓇰𓇱𓇲𓇳𓇴𓇵𓇶𓇷𓇸𓇹𓇺𓇻𓇼𓇽𓇾𓇿𓈀𓈁𓈂𓈃𓈄𓈅𓈆𓈇𓈈𓈉𓈊𓈋𓈌𓈍𓈎𓈏𓈐𓈑𓈒𓈓𓈔𓈕𓈖𓈗𓈘𓈙𓈚𓈛𓈜𓈝𓈞𓈟𓈠𓈡𓈢𓈣𓈤𓈥𓈦𓈧𓈨𓈩𓈪𓈫𓈬𓈭𓈮𓈯𓈰𓈱𓈲𓈳𓈴𓈵𓈶𓈷𓈸𓈹𓈺𓈻𓈼𓈽𓈾𓈿𓉀𓉁𓉂𓉃𓉄𓉅𓉆𓉇𓉈𓉉𓉊𓉋𓉌𓉍𓉎𓉏𓉐𓉑𓉒𓉓𓉔𓉕𓉖𓉗𓉘𓉙𓉚𓉛𓉜𓉝𓉞𓉟𓉠𓉡𓉢𓉣𓉤𓉥𓉦𓉧𓉨𓉩𓉪𓉫𓉬𓉭𓉮𓉯𓉰𓉱𓉲𓉳𓉴𓉵𓉶𓉷𓉸𓉹𓉺𓉻𓉼𓉽𓉾𓉿𓊀𓊁𓊂𓊃𓊄𓊅𓊆𓊇𓊈𓊉𓊊𓊋𓊌𓊍𓊎𓊏𓊐𓊑𓊒𓊓𓊔𓊕𓊖𓊗𓊘𓊙𓊚𓊛𓊜𓊝𓊞𓊟𓊠𓊡𓊢𓊣𓊤𓊥𓊦𓊧𓊨𓊩𓊪𓊫𓊬𓊭𓊮𓊯𓊰𓊱𓊲𓊳𓊴𓊵𓊶𓊷𓊸𓊹𓊺𓊻𓊼𓊽𓊾𓊿𓋀𓋁𓋂𓋃𓋄𓋅𓋆𓋇𓋈𓋉𓋊𓋋𓋌𓋍𓋎𓋏𓋐𓋑𓋒𓋓𓋔𓋕𓋖𓋗𓋘𓋙𓋚𓋛𓋜𓋝𓋞𓋟𓋠𓋡𓋢𓋣𓋤𓋥𓋦𓋧𓋨𓋩𓋪𓋫𓋬𓋭𓋮𓋯𓋰𓋱𓋲𓋳𓋴𓋵𓋶𓋷𓋸𓋹𓋺𓋻𓋼𓋽𓋾𓋿𓌀𓌁𓌂𓌃𓌄𓌅𓌆𓌇𓌈𓌉𓌊𓌋𓌌𓌍𓌎𓌏𓌐𓌑𓌒𓌓𓌔𓌕𓌖𓌗𓌘𓌙𓌚𓌛𓌜𓌝𓌞𓌟𓌠𓌡𓌢𓌣𓌤𓌥𓌦𓌧𓌨𓌩𓌪𓌫𓌬𓌭𓌮𓌯𓌰𓌱𓌲𓌳𓌴𓌵𓌶𓌷𓌸𓌹𓌺𓌻𓌼𓌽𓌾𓌿𓍀𓍁𓍂𓍃𓍄𓍅𓍆𓍇𓍈𓍉𓍊𓍋𓍌𓍍𓍎𓍏𓍐𓍑𓍒𓍓𓍔𓍕𓍖𓍗𓍘𓍙𓍚𓍛𓍜𓍝𓍞𓍟𓍠𓍡𓍢𓍣𓍤𓍥𓍦𓍧𓍨𓍩𓍪𓍫𓍬𓍭𓍮𓍯𓍰𓍱𓍲𓍳𓍴𓍵𓍶𓍷𓍸𓍹𓍺𓍻𓍼𓍽𓍾𓍿𓎀𓎁𓎂𓎃𓎄𓎅𓎆𓎇𓎈𓎉𓎊𓎋𓎌𓎍𓎎𓎏𓎐𓎑𓎒𓎓𓎔𓎕𓎖𓎗𓎘𓎙𓎚𓎛𓎜𓎝𓎞𓎟𓎠𓎡𓎢𓎣𓎤𓎥𓎦𓎧𓎨𓎩𓎪𓎫𓎬𓎭𓎮𓎯𓎰𓎱𓎲𓎳𓎴𓎵𓎶𓎷𓎸𓎹𓎺𓎻𓎼𓎽𓎾𓎿𓏀𓏁𓏂𓏃𓏄𓏅𓏆𓏇𓏈𓏉𓏊𓏋𓏌𓏍𓏎𓏏𓏐𓏑𓏒𓏓𓏔𓏕𓏖𓏗𓏘𓏙𓏚𓏛𓏜𓏝𓏞𓏟𓏠𓏡𓏢𓏣𓏤𓏥𓏦𓏧𓏨𓏩𓏪𓏫𓏬𓏭𓏮𓏯𓏰𓏱𓏲𓏳𓏴𓏵𓏶𓏷﷽ﷺﷻ﷼⧇⧈⧉⧊⧋⧌⧍⧎⧏⧐⧑⧒⧓⧔⧕⧖⧗⧘⧙⧚⧛⧜⧝⧞⧟⧠⧡⌀⌁⌂⌘⌮⌯⌰⌱⌲⌳⌬⏧";
-        Array.from(allSymbols).forEach(s => {
+        const allSymbols = [
+            "ﷺ", "ﷻ", "﷽", "🕌", "🕋", "🌙", "⭐", "📿", "🤲", "☪️", "📖", "✨",
+            ..."⧇⧈⧉⧊⧋⧌⧍⧎⧏⧐⧑⧒⧓⧔⧕⧖⧗⧘⧙⧚⧛⧜⧝⧞⧟⧠⧡⧢⌬⏧⌘⌮⌯⌰⌱⌲⌳⌀⌁⌂⍝⍟⍣⍤⍥⍨⍩⍫⍬⍭⍮⍯⍰⍱⫘⫗⫙⩔⩓⩒⩑⩐⩏⩎⩍⩌⩋⩊⩉⩈⩇⩆⩅⩄⩃⩂⩁⩀⨿⨾⨽",
+            ..."𓀀𓀁𓀂𓀃𓀄𓀅𓀆𓀇𓀈𓀉𓀊𓀋𓀌𓀍𓀎𓀏𓀐𓀑𓀒𓀓𓀔𓀕𓀖𓀗𓀘𓀙𓀚𓀛𓀜𓀝𓀞𓀟𓀠𓀡𓀢𓀣𓀤𓀥𓀦𓀧𓀨𓀩𓀪𓀫𓀬𓀭𓀮𓀯𓀰𓀱𓀲𓀳𓀴𓀵𓀶𓀷𓀸𓀹𓀺𓀻𓀼𓀽𓀾𓀿𓂀𓁀𓁁𓁂𓁃𓁄𓁅𓁆𓁇𓁈𓁉𓁊𓁋𓁌𓁍𓁎𓁏𓁐𓁑𓁒𓁓𓁔𓁕𓁖𓁗𓁘𓁙𓁚𓁛𓁜𓁝𓁞𓁟𓁠𓁡𓁢𓁣𓁤𓁥𓁦𓁧𓁨𓁩𓁪𓁫𓁬𓁭𓁮𓁯𓁰𓁱𓁲𓁳𓁴𓁵𓁶𓁷𓁸𓁹𓁺𓁻𓁼𓁽𓁾𓁿"
+        ];
+        
+        allSymbols.forEach(s => {
             const span = document.createElement('span');
-            span.className = 's-item'; span.innerText = s;
+            span.className = 's-item'; 
+            span.innerText = s;
             span.onclick = () => { 
                 navigator.clipboard.writeText(s); 
-                const t = document.getElementById("toast");
-                t.className = "show";
-                setTimeout(() => t.className = "", 2000);
+                showToast("تم نسخ الرمز! 📋"); 
             };
             grid.appendChild(span);
         });
