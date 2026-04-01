@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.yourdomain.com/sitemap.xml
+Sitemap: https://secret-chat-opal.vercel.app/sitemap.xml
+
