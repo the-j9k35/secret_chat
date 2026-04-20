@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://secret-chat-opal.vercel.app/sitemap.xml
-
