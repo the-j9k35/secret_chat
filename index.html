@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Chat Pro | التشفير الاحترافي</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7058533287275550" crossorigin="anonymous"></script>
+    <style>
+        :root { --neon: #00ff41; --bg: #050505; }
+        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 0; margin: 0; line-height: 1.8; }
+        .top-bar { display: flex; justify-content: flex-start; padding: 15px 5%; background: rgba(10, 10, 10, 0.95); border-bottom: 1px solid #222; }
+        .nav-links { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: var(--neon); font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; padding: 0 12px; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 8px var(--neon); }
+        .divider { color: var(--neon); opacity: 0.4; font-size: 18px; }
+        .container { border: 2px solid #222; background: #111; padding: 20px; border-radius: 15px; max-width: 500px; margin: 50px auto; box-shadow: 0 0 25px rgba(0, 255, 65, 0.15); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 12px; background: #222; border: 1px solid #444; color: #888; cursor: pointer; border-radius: 8px; font-weight: bold; }
+        .tab-btn.active { background: var(--neon); color: #000; box-shadow: 0 0 15px var(--neon); border-color: var(--neon); }
+        textarea { width: 94%; height: 90px; margin: 10px 0; background: #000; color: var(--neon); border: 1px solid #333; padding: 12px; font-size: 16px; border-radius: 10px; outline: none; resize: none; }
+        .btn-group { display: flex; gap: 8px; }
+        button.action-btn { flex: 1; background: #1a1a1a; color: var(--neon); border: 1px solid var(--neon); padding: 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
+        .copy-btn { width: 100%; margin-top: 10px; background: var(--neon); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        
+        /* تنسيقات المحتوى الموسع */
+        .mega-content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .content-box { background: #0d0d0d; border: 1px solid #222; padding: 30px; border-radius: 15px; margin-bottom: 30px; position: relative; overflow: hidden; }
+        .content-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); }
+        h2 { color: var(--neon); font-size: 28px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        h3 { color: #fff; font-size: 20px; margin-top: 30px; }
+        p { color: #999; font-size: 16px; text-align: justify; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .info-card { background: #151515; padding: 20px; border-radius: 10px; border: 1px solid #333; }
+        .info-card h4 { margin: 0 0 10px 0; color: var(--neon); }
+        .accent-text { color: var(--neon); font-weight: bold; }
+
+        #toast { visibility: hidden; background: var(--neon); color: #000; padding: 12px 25px; border-radius: 50px; position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 4000; font-weight: bold; }
+        #toast.show { visibility: visible; animation: fadeInOut 2s; }
+        @keyframes fadeInOut { 0%, 100% {opacity:0;} 20%, 80% {opacity:1;} }
+    </style>
+</head>
+<body>
+
+<div id="toast">تم النسخ! 📋</div>
+
+<div class="top-bar">
+    <div class="nav-links">
+        <a href="about.html">👤 من نحن</a>
+        <span class="divider">|</span>
+        <a href="privacy.html">🔒 الخصوصية</a>
+        <span class="divider">|</span>
+        <a href="contact.html">📧 اتصل بنا</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1 style="text-align:center; font-size: 22px; margin-top: 0;">SECRET CHAT PRO</h1>
+    <div class="tabs">
+        <button id="b-sym" class="tab-btn active" onclick="setMode('sym')">👾 الرموز</button>
+        <button id="b-mat" class="tab-btn" onclick="setMode('mat')">🧪 باينري</button>
+        <button id="b-emo" class="tab-btn" onclick="setMode('emo')">😎 إيموجي</button>
+    </div>
+    <textarea id="in" placeholder="أدخل النص (عربي أو English)..."></textarea>
+    <div class="btn-group">
+        <button class="action-btn" onclick="run(1)">🔒 تشفير</button>
+        <button class="action-btn" onclick="run(2)">🔓 فك التشفير</button>
+    </div>
+    <textarea id="out" readonly placeholder="النتيجة تظهر هنا..."></textarea>
+    <button class="copy-btn" onclick="copyResult()">📋 نسخ النتيجة النهائية</button>
+</div>
+
+<div class="mega-content">
+    
+    <div class="content-box">
+        <h2>دليلك الشامل لعالم التشفير الرقمي</h2>
+        <p>مرحباً بك في <span class="accent-text">Secret Chat Pro</span>، المنصة الرائدة في الشرق الأوسط لتحويل النصوص العادية إلى شيفرات معقدة. إن التشفير ليس مجرد أداة لإخفاء الكلمات، بل هو علم يمتد لآلاف السنين، من شيفرة قيصر القديمة وصولاً إلى أنظمة التشفير الكمي الحديثة. هدفنا هنا هو تقريب هذا العلم إليك بأسلوب مبسط وعملي.</p>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>التشفير البديل</h4>
+                <p>تعتمد أداتنا على نظام الاستبدال، حيث يتم ربط كل حرف برمز فريد لا يمكن فهمه إلا من خلال "القاموس" الخاص بالأداة.</p>
+            </div>
+            <div class="info-card">
+                <h4>دعم اللغات</h4>
+                <p>نحن فخورون بدعم اللغة العربية بالكامل بجانب الإنجليزية، مما يضمن لك تجربة تشفير متكاملة مهما كانت لغتك.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h2>شرح أنظمة التشفير المتوفرة</h2>
+        
+        <h3>1. نظام الرموز (Symbols Mode)</h3>
+        <p>هذا النمط مستوحى من لغات البرمجة القديمة والرموز الرياضية المعقدة. يقوم النظام باستبدال الحروف الأبجدية برموز مثل ⧇ و ⧉، مما يعطي النص طابعاً غامضاً "Cyberpunk". هذا النمط مثالي إذا كنت تريد إرسال رسائل تبدو وكأنها أكواد برمجية غير مفهومة تماماً.</p>
+
+        <h3>2. نظام الباينري (Binary Mode)</h3>
+        <p>البث الثنائي أو "الباينري" هو لغة العقل الإلكتروني. في هذا الوضع، نحاكي طريقة تفاعل المعالجات مع النصوص عن طريق تحويل الحروف إلى سلاسل من الأصفار والآحاد. إنها الطريقة الأكثر كلاسيكية في عالم الهكرز وعلوم الحاسوب، حيث تتحول جملة بسيطة إلى صفوف طويلة من الأرقام المنطقية.</p>
+
+        <h3>3. نظام الإيموجي (Emoji Stealth Mode)</h3>
+        <p>لماذا تستخدم الرموز التقليدية بينما يمكنك التخفي خلف الرموز التعبيرية؟ هذا النمط هو الأكثر ذكاءً للتمويه. عند تشفير رسالتك، ستظهر كأنها مجموعة عشوائية من الرموز (مثل 👤، 🌌، 🧪). المتطفل سيظن أنك ترسل إيموجي عشوائي، بينما أنت في الحقيقة ترسل رسالة سرية للغاية.</p>
+    </div>
+
+    <div class="content-box">
+        <h2>استخدامات Secret Chat Pro في حياتك اليومية</h2>
+        <p>قد يتساءل البعض: "متى أحتاج لاستخدام هذه الأداة؟". الحقيقة أن الاستخدامات لا حصر لها وتعتمد على إبداعك:</p>
+        <ul style="color: #999;">
+            <li><span class="accent-text">حماية كلمات المرور:</span> بدلاً من كتابة كلمة مرورك في ملاحظة عادية، قم بتشفيرها وحفظ الكود المشفر فقط.</li>
+            <li><span class="accent-text">المجموعات العامة:</span> إذا كنت في مجموعة "جروب" وتريد إرسال معلومة لصديق محدد دون أن يفهم البقية معناها.</li>
+            <li><span class="accent-text">الألعاب والألغاز:</span> يمكنك بناء تحديات برمجية أو ألغاز لأصدقائك باستخدام أنماط التشفير المختلفة لدينا.</li>
+            <li><span class="accent-text">الخصوصية الاجتماعية:</span> تبادل الأسرار مع شريكك أو أصدقائك المقربين بعيداً عن فضول منصات التواصل الاجتماعي.</li>
+        </ul>
+    </div>
+
+    <div class="content-box">
+        <h2>الجانب التقني: كيف تعمل الأداة؟</h2>
+        <p>تعمل أداة <span class="accent-text">Secret Chat Pro</span> باستخدام تقنية JavaScript متطورة تعمل على طرف العميل (Client-Side Logic). هذا يعني أن عملية المعالجة تتم داخل جهازك أنت:</p>
+        <h3>خوارزمية المسح (Scanning Algorithm):</h3>
+        <p>عند الضغط على "تشفير"، تقوم الأداة بعمل Loop أو دورة كاملة على كل حرف في نصك، ثم تبحث عن "القيمة المقابلة" في قواميسنا الضخمة. إذا وجد النظام الحرف، يستبدله بالرمز؛ وإذا لم يجده (مثل الأرقام أو العلامات الخاصة)، يتركه كما هو لضمان عدم ضياع السياق.</p>
+        <h3>الأمان المطلق:</h3>
+        <p>بما أن الكود يعمل في متصفحك، فلا توجد بيانات تخرج من جهازك. نحن لا نستخدم قواعد بيانات لتخزين رسائلك، مما يجعل التجسس على عملياتك أمراً مستحيلاً تقنياً. خصوصيتك هي أولويتنا القصوى، وأداتنا هي الحصن الذي يحمي كلماتك.</p>
+    </div>
+
+    <div class="content-box" style="text-align: center; border-left: none; border-bottom: 4px solid var(--neon);">
+        <h2>انضم إلى مجتمع الخصوصية</h2>
+        <p>نحن نعمل باستمرار على تطوير Secret Chat Pro لإضافة أنماط تشفير أكثر تعقيداً ودعماً للغات إضافية. تذكر دائماً: في عالم يراقب فيه الجميع كل شيء، الصمت مشفر.. والكلمات المشفرة هي حريتك.</p>
+        <p style="margin-top: 20px; font-size: 12px; opacity: 0.5;">تم التطوير بكل فخر لدعم المحتوى التقني العربي.</p>
+    </div>
+
+</div>
+
+<script>
+    let mode = 'sym';
+    
+    const dicts = {
+        mat: {
+            'ا':'001 ','ب':'010 ','ت':'011 ','ث':'100 ','ج':'101 ','ح':'110 ','خ':'111 ','د':'0010 ','ذ':'0011 ','ر':'0100 ','ز':'0101 ','س':'0110 ','ش':'0111 ','ص':'1000 ','ض':'1001 ','ط':'1010 ','ظ':'1011 ','ع':'1100 ','غ':'1101 ','ف':'1110 ','ق':'1111 ','ك':'10001 ','ل':'10010 ','م':'10011 ','ن':'10100 ','ه':'10101 ','و':'10110 ','ي':'10111 ',
+            'a':'11001 ','b':'11010 ','c':'11011 ','d':'11100 ','e':'11101 ','f':'11110 ','g':'11111 ','h':'101010 ','i':'101011 ','j':'101100 ','k':'101101 ','l':'101110 ','m':'101111 ','n':'110000 ','o':'110001 ','p':'110010 ','q':'110011 ','r':'110100 ','s':'110101 ','t':'110110 ','u':'110111 ','v':'111000 ','w':'111001 ','x':'111010 ','y':'111011 ','z':'111100 ',
+            ' ':'  '
+        },
+        sym: {
+            'ا':'⧇','ب':'⧈','ت':'⧉','ث':'⧊','ج':'⧋','ح':'⧌','خ':'⧍','د':'⧎','ذ':'⧏','ر':'⧐','ز':'⧑','س':'⧒','ش':'⧓','ص':'⧔','ض':'⧕','ط':'⧖','ظ':'⧗','ع':'⧘','غ':'⧙','ف':'⧚','ق':'⧛','ك':'⧜','ل':'⧝','م':'⧞','ن':'⧟','ه':'⧠','و':'⧡','ي':'⧢',
+            'a':'⌬','b':'⏧','c':'⌘','d':'⌮','e':'⌯','f':'⌰','g':'⌱','h':'⌲','i':'⌳','j':'⌀','k':'⌁','l':'⌂','m':'⍝','n':'⍟','o':'⍣','p':'⍤','q':'⍥','r':'⍨','s':'⍩','t':'⍫','u':'⍬','v':'⍭','w':'⍮','x':'⍯','y':'⍰','z':'⍱',
+            ' ':'  '
+        },
+        emo: {
+            'ا':'👤','ب':'🌑','ت':'🔋','ث':'🧬','ج':'🌌','ح':'🗝️','خ':'⛓️','د':'🛰️','ر':'⚔️','س':'🧿','ش':'⚡','ص':'🔮','ض':'📡','ط':'🐲','ظ':'🪐','ع':'👁️‍🗨️','غ':'🌫️','ف':'🎭','ق':'🧩','ك':'🧪','ل':'🧬','م':'🌙','ن':'🌑','ه':'⛩️','و':'🌀','ي':'💎',
+            'a':'👽','b':'👾','c':'🤖','d':'👺','e':'👻','f':'💀','g':'☠️','h':'🤡','i':'👹','j':'🎃','k':'🧛','l':'🧟','m':'🧙','n':'🧝','o':'🧞','p':'🧜','q':'🧚','r':'👼','s':'💂','t':'🕵️','u':'🤴','v':'👰','w':'🤵','x':'🤶','y':'🎅','z':'🤴',
+            ' ':'✨'
+        }
+    };
+
+    function setMode(m) {
+        mode = m;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('b-' + m).classList.add('active');
+    }
+
+    function showToast(m) {
+        const t = document.getElementById("toast");
+        t.innerText = m; t.className = "show";
+        setTimeout(() => t.className = "", 2000);
+    }
+
+    function copyResult() {
+        const o = document.getElementById("out");
+        if (o.value) {
+            navigator.clipboard.writeText(o.value);
+            showToast("تم النسخ بنجاح! ✅");
+        } else { showToast("لا يوجد نص لنسخه! ⚠️"); }
+    }
+
+    function run(type) {
+        let input = document.getElementById("in").value;
+        if (!input) { showToast("برجاء إدخال نص أولاً! ⌨️"); return; }
+        
+        let res = "";
+        const d = dicts[mode];
+
+        if (type === 1) {
+            let text = input.toLowerCase();
+            for (let char of text) {
+                res += d[char] || char;
+            }
+        } else {
+            res = input;
+            const rev = Object.fromEntries(Object.entries(d).map(([k, v]) => [v, k]));
+            const sortedKeys = Object.keys(rev).sort((a, b) => b.length - a.length);
+            for (let key of sortedKeys) {
+                if (key !== '  ' && key !== '✨') {
+                    res = res.split(key).join(rev[key]);
+                }
+            }
+            res = res.split(mode === 'emo' ? '✨' : '  ').join(' ');
+        }
+        document.getElementById("out").value = res;
+    }
+</script>
+</body>
+</html>
